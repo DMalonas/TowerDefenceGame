@@ -1,5 +1,5 @@
 package towerDefence;
 
-public class Catapult {
+public class Catapult extends Tower{
 
 }

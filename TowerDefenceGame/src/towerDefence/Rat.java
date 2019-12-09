@@ -1,5 +1,5 @@
 package towerDefence;
 
-public class Rat {
-
+public class Rat extends Enemy{
+	
 }

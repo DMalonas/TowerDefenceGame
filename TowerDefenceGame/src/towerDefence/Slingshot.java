@@ -1,5 +1,5 @@
 package towerDefence;
 
-public class Slingshot {
+public class Slingshot extends Tower{
 
 }

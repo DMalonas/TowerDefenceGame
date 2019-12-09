@@ -13,4 +13,11 @@ public class Tower {
 	boolean willFire(int timeStep) {
 		return true;
 	}
+	
+	
+	@Override
+    public String toString() { 
+		 return String.format("Tower");
+	}
+
 }

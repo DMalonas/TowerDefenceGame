@@ -23,5 +23,10 @@ public class Game {
 	public void setCorridorLength(int corridorLength) {
 		this.corridorLength = corridorLength;
 	}
+	
+	@Override
+    public String toString() { 
+		 return String.format("Game"); 
+	} 
 
 }

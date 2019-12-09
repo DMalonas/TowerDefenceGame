@@ -17,4 +17,9 @@ public class Enemy {
 	void advance() {
 		
 	}
+	
+	@Override
+    public String toString() { 
+		 return String.format("Enemy"); 
+	}
 }

@@ -1,7 +1,11 @@
 package towerDefence;
 
 public class Enemy {
+	private int position = 0;
 	
+	public Enemy(int positionIn) {
+		this.position = positionIn;
+	}
 	int getHealth() {
 		return 1;
 	}
@@ -15,7 +19,7 @@ public class Enemy {
 	}
 	
 	void advance() {
-		
+		position++;
 	}
 	
 	@Override

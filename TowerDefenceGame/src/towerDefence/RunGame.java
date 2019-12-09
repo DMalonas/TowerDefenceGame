@@ -42,13 +42,22 @@ package towerDefence;
  */
 public class RunGame {
 
+	
+	
+	
+	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		System.out.println(" ");
-
+		Game game = new Game(40);
+		
+		Enemy rat1 = new Rat();
+		game.setEnemies(rat1);
+		//System.out.println(game.getEnemies());
+		game.drawCorridor();
+		
 	}
 
 }

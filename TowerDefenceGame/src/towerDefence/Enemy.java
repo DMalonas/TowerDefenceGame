@@ -1,6 +1,6 @@
 package towerDefence;
 
-public class Enemy {
+public class Enemy{
 	private int position = 0;
 	
 	public Enemy(int positionIn) {

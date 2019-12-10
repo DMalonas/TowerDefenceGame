@@ -5,13 +5,12 @@ import java.util.concurrent.TimeUnit;
 
 public class Game {
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-	private ArrayList<Tower> towers;
+	private ArrayList<Tower> towers = new ArrayList<Tower>();
 	
 	private int corridorLength = 0;
 	
 	public Game(int corridorLengthIn) {
 		this.corridorLength = corridorLengthIn;
-		System.out.println("Here");
 	}
 	
 
@@ -22,12 +21,25 @@ public class Game {
 	
 	
 	public void drawCorridor() {
+		int twrs[] = new int[towers.size()];
+		for (int i = 0; i < towers.size(); i++) {
+			twrs[i] = towers.get(i).getPosition();
+		}
 		for(;;) {
 			int len = this.corridorLength;
 			System.out.println("\n");
-	
 			for (int i = 0; i < len; i++) {
-				System.out.print("_");
+
+				//	int towers.get(j).getPosition());
+					for (int j = 0; j < twrs.length; j++) {
+						if (twrs[j] == i) {
+							System.out.print(towers.get(j));
+							i++;
+						}
+					}
+					if (i < len) {
+						System.out.print("_");					
+					}
 			}
 			System.out.println("\n");
 			for (int i = 0; i < enemies.size(); i++) {
@@ -87,8 +99,8 @@ public class Game {
 		return towers;
 	}
 
-	public void setTowers(ArrayList<Tower> towers) {
-		this.towers = towers;
+	public void setTowers(Tower towerIn) {
+		this.towers.add(towerIn);
 	}
 	
 	@Override

@@ -55,6 +55,10 @@ public class RunGame {
 		
 		Enemy rat1 = new Rat();
 		game.setEnemies(rat1);
+		Tower slingshot1 = new Slingshot(30);
+		Tower catapult1 = new Catapult(39);
+		game.setTowers(slingshot1);
+		game.setTowers(catapult1);
 		//System.out.println(game.getEnemies());
 		game.drawCorridor();
 		

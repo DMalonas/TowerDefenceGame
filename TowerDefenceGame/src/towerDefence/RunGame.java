@@ -62,6 +62,7 @@ public class RunGame {
 		Enemy e11 = new Elephant();
 		Enemy e12 = new Elephant();		
 		game.setEnemies(e1);
+		System.out.print("");
 		game.setEnemies(e2);
 		game.setEnemies(e3);
 		game.setEnemies(e4);

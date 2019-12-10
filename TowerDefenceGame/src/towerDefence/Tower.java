@@ -3,7 +3,8 @@ package towerDefence;
 public class Tower {
 	private int position;
 	private String name;
-	
+	private static int timeStep = 0;
+
 	public Tower(int positionIn, String nameIn) {
 		this.position = positionIn;
 		this.setName(nameIn);
@@ -28,10 +29,20 @@ public class Tower {
 		this.name = name;
 	}
 	
+	
+	public static int getTimeStep() {
+		return timeStep;
+	}
+	public static void setTimeStep() {
+		timeStep++;
+	}
+	
+	
 	@Override
     public String toString() { 
 		 return String.format("Tower");
 	}
+
 
 
 }

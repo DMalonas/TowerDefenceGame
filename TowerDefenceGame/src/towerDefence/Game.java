@@ -26,6 +26,7 @@ public class Game {
 			twrs[i] = towers.get(i).getPosition();
 		}
 		for(;;) {
+			
 			int len = this.corridorLength;
 			System.out.println("\n");
 			for (int i = 0; i < len; i++) {
@@ -45,7 +46,7 @@ public class Game {
 			for (int i = 0; i < enemies.size(); i++) {
 				int pos = enemies.get(i).getPosition();
 				//System.out.println(pos);
-
+				
 				for (int j = 0; j < pos; j++) {
 					
 					System.out.print(" ");
@@ -61,6 +62,7 @@ public class Game {
 					System.out.println("\nGame over");
 					return;
 				}
+				System.out.println();
 				//System.out.println(enemies.get(i).getPosition());
 			}
 			System.out.println();
@@ -69,6 +71,10 @@ public class Game {
 			}
 			System.out.print("|");
 			System.out.println("\n\n\n\n");
+			if (enemies.isEmpty()) {
+				System.out.println("All enemies were defeated");
+				return;
+			}
 			try {
 				TimeUnit.SECONDS.sleep(1);
 			} catch (InterruptedException e) {
@@ -76,6 +82,17 @@ public class Game {
 				e.printStackTrace();
 			}
 			
+			for (int i = 0; i < twrs.length; i++) {
+				if (towers.get(i).willFire(Tower.getTimeStep()) && towers.get(i).getPosition() > enemies.get(0).getPosition()) {
+					for (int j = 0; j < 1; j++) {
+						enemies.get(j).hitTower(towers.get(i));
+						if (enemies.get(j).getHealth() <= 0) {
+							enemies.remove(j);
+						}
+					}
+				}
+			}
+			Tower.setTimeStep();
 		}
 	}
 	public int getCorridorLength() {

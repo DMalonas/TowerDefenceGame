@@ -15,11 +15,14 @@ public class Enemy{
 	}
 	
 	void hitTower(Tower t) {
-		
 	}
 	
 	public void setPositionRat() {
-		this.position++;
+		this.position += 2;
+	}
+
+	public void setPositionEl() {
+		this.position += 1;
 	}
 	
 	void advance() {

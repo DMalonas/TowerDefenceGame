@@ -1,6 +1,7 @@
 package towerDefence;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class Game {
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
@@ -21,22 +22,49 @@ public class Game {
 	
 	
 	public void drawCorridor() {
-		int len = this.corridorLength;
-		System.out.println("\n");
+		for(;;) {
+			int len = this.corridorLength;
+			System.out.println("\n");
+	
+			for (int i = 0; i < len; i++) {
+				System.out.print("_");
+			}
+			System.out.println("\n");
+			for (int i = 0; i < enemies.size(); i++) {
+				int pos = enemies.get(i).getPosition();
+				//System.out.println(pos);
 
-		for (int i = 0; i < len; i++) {
-			System.out.print("__ ");
+				for (int j = 0; j < pos; j++) {
+					
+					System.out.print(" ");
+				}
+				System.out.print(enemies.get(i) + " ");
+				enemies.get(i).advance();
+				if (enemies.get(i).getPosition() == len) {
+					System.out.println();
+					for (int k = 0; k < len; k++) {
+						System.out.print("_");
+					}
+					System.out.print("|");
+					System.out.println("\nGame over");
+					return;
+				}
+				//System.out.println(enemies.get(i).getPosition());
+			}
+			System.out.println();
+			for (int i = 0; i < len; i++) {
+				System.out.print("_");
+			}
+			System.out.print("|");
+			System.out.println("\n\n\n\n");
+			try {
+				TimeUnit.SECONDS.sleep(1);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
-		System.out.println("\n");
-		for (int i = 0; i < enemies.size(); i++) {
-			int pos = enemies.get(i).getPosition();
-			System.out.print(enemies.get(i) + " ");
-		}
-		System.out.println();
-		for (int i = 0; i < len; i++) {
-			System.out.print("__ ");
-		}
-
 	}
 	public int getCorridorLength() {
 		return corridorLength;

@@ -11,15 +11,19 @@ public class Enemy {
 	}
 	
 	int getPosition() {
-		return 1;
+		return this.position;
 	}
 	
 	void hitTower(Tower t) {
 		
 	}
 	
+	public void setPositionRat() {
+		this.position++;
+	}
+	
 	void advance() {
-		position++;
+		this.position+=10;
 	}
 	
 	@Override

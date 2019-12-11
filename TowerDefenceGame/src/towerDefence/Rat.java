@@ -28,6 +28,8 @@ public class Rat extends Enemy{
 			health -= 5;
 		} else if (t.getName() == "S") {
 			health -= 1;
+		} else if (t.getName() == "N") {
+			health -= 5;
 		}
 	}
 	

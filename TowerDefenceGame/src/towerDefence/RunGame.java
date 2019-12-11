@@ -53,23 +53,23 @@ public class RunGame {
 		// TODO Auto-generated method stub
 		Game game = new Game(40);
 		
-		Enemy e1 = new Rat();
-		Enemy e2 = new Rat();
-		Enemy e3 = new Elephant();
-		Enemy e4 = new Elephant();
-		Enemy e5 = new Elephant();
-		Enemy e6 = new Elephant();
-		Enemy e11 = new Elephant();
-		Enemy e12 = new Elephant();		
-		game.setEnemies(e1);
-		game.setEnemies(e2);
-		game.setEnemies(e3);
-		game.setEnemies(e4);
-		game.setEnemies(e5);
-		game.setEnemies(e6);
+		//Enemy e1 = new Rat();
+		//Enemy e2 = new Rat();
+		//Enemy e3 = new Elephant();
+		//Enemy e4 = new Elephant();
+		//Enemy e5 = new Elephant();
+		//Enemy e6 = new Elephant();
+		//Enemy e11 = new Elephant();
+		//Enemy e12 = new Elephant();		
+		//game.setEnemies(e1);
+		//game.setEnemies(e2);
+		//game.setEnemies(e3);
+		//game.setEnemies(e4);
+		//game.setEnemies(e5);
+		//game.setEnemies(e6);
 
-		game.setEnemies(e11);
-		game.setEnemies(e12);
+		//game.setEnemies(e11);
+		//game.setEnemies(e12);
 		//Tower slingshot1 = new Slingshot(30);
 		//Tower catapult1 = new Catapult(39);
 		//game.setTowers(slingshot1);

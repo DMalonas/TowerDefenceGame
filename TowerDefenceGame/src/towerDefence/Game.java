@@ -11,12 +11,17 @@ public class Game {
 	
 	public static final int BUDGET = 600;
     public static final int THREE = 3;
-
+    public static final double PROB_88 = 0.88;
+    public static final double PROB_66 = 0.66;
+    public static final double PROB_33 = 0.33;
+    public static final int ONE_HUNDRED = 100;
+    
 	private Random randomGenerator;
 	
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	private ArrayList<Tower> towers = new ArrayList<Tower>();
 	
+	private float probabilityOfNewEnemyPerTimeStep;
 	private int corridorLength = 0;
     private int budget;
 	
@@ -31,10 +36,11 @@ public class Game {
 	public Game(int corridorLengthIn) {
 		this.corridorLength = corridorLengthIn;
 		randomGenerator = new Random();
+		probabilityOfNewEnemyPerTimeStep = (float) PROB_88;
 		budget = BUDGET;
 		insertTowers();
 	}
-	
+
 
 
 	public void advance() {
@@ -56,7 +62,8 @@ public class Game {
 		}
 		
 		for(;;) {
-			
+			insertEnemyWithProbability(probabilityOfNewEnemyPerTimeStep);
+
 			int len = this.corridorLength;
 			System.out.println("\n");
 			int flag = 0;
@@ -130,7 +137,29 @@ public class Game {
 	
 	
 	
+	public void insertEnemyWithProbability(float probability) {
+		int getRandom = randomGenerator.nextInt(ONE_HUNDRED);
+		if (getRandom < PROB_33 * probability * ONE_HUNDRED) {
+			insertRat();
+		} else if (getRandom < PROB_66 * probability * ONE_HUNDRED) {
+			insertElephant();
+		} else if (getRandom < PROB_66 * probability * ONE_HUNDRED) {
+			insertBuffalo();
+		}
+	}
 	
+	public void insertRat() {
+		Enemy newRat = new Rat();
+		enemies.add(newRat);
+	}
+	public void insertElephant() {
+		Enemy newElephant = new Elephant();
+		enemies.add(newElephant);
+	}
+	public void insertBuffalo() {
+		Enemy newBuffalo = new Buffalo();
+		enemies.add(newBuffalo);
+	}
 	
 	
 	public void insertTowers() {
@@ -150,12 +179,22 @@ public class Game {
 			break;
 		default:
 			insertCatapultAt((corridorLength / 2) + (randomGenerator.nextInt(corridorLength / 2 + 1)));
-            while(!insertCatapultAt((corridorLength / 2) + (randomGenerator.nextInt(corridorLength / 2 + 1))));
+            while(!insertCannonAt((corridorLength / 2) + (randomGenerator.nextInt(corridorLength / 2 + 1))));
             break;
 		}
 	}
 	
 	
+	private boolean insertCannonAt(int position) {
+		if ((!checkIfTowerAt(position)) && (position >= 1) && (position <= corridorLength)) {
+			Tower newCannon = new Cannon(position);
+			System.out.println("POSITION N                                " + position);
+			towers.add(newCannon);
+			budget -= newCannon.getCost();
+			return true;
+		}
+		return false;
+	}
 	
 	private boolean insertCatapultAt(int position) {
 		// TODO Auto-generated method stub

@@ -62,7 +62,6 @@ public class RunGame {
 		Enemy e11 = new Elephant();
 		Enemy e12 = new Elephant();		
 		game.setEnemies(e1);
-		System.out.print("");
 		game.setEnemies(e2);
 		game.setEnemies(e3);
 		game.setEnemies(e4);
@@ -71,10 +70,10 @@ public class RunGame {
 
 		game.setEnemies(e11);
 		game.setEnemies(e12);
-		Tower slingshot1 = new Slingshot(30);
-		Tower catapult1 = new Catapult(39);
-		game.setTowers(slingshot1);
-		game.setTowers(catapult1);
+		//Tower slingshot1 = new Slingshot(30);
+		//Tower catapult1 = new Catapult(39);
+		//game.setTowers(slingshot1);
+		//game.setTowers(catapult1);
 		
 		//System.out.println(game.getEnemies());
 		game.drawCorridor();

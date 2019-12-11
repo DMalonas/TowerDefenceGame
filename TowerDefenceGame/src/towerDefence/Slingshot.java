@@ -3,9 +3,11 @@ package towerDefence;
 public class Slingshot extends Tower{
 
 	private String name = "S";
-	
+	public static final int SLING_COST = 200;
+
 	public Slingshot(int positionIn) {
 		super(positionIn, "S");
+		cost = SLING_COST;
 		System.out.print("slingshot created");
 		// TODO Auto-generated constructor stub
 	}

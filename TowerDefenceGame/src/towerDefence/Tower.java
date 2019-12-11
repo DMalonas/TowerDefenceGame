@@ -4,6 +4,8 @@ public class Tower {
 	private int position;
 	private String name;
 	private static int timeStep = 0;
+    protected int cost;
+
 
 	public Tower(int positionIn, String nameIn) {
 		this.position = positionIn;
@@ -13,6 +15,10 @@ public class Tower {
 		return 1;
 	}
 	
+    public int getCost() {
+        return this.cost;
+    }
+    
 	int getPosition() {
 		return this.position;
 	}

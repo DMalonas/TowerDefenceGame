@@ -3,7 +3,6 @@ package towerDefence;
 public class Tower {
 	private int position;
 	private String name;
-	private static int timeStep = 0;
     protected int cost;
 
 
@@ -33,14 +32,6 @@ public class Tower {
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-	
-	
-	public static int getTimeStep() {
-		return timeStep;
-	}
-	public static void setTimeStep() {
-		timeStep++;
 	}
 	
 	

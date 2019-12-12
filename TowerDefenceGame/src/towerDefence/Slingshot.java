@@ -18,10 +18,6 @@ public class Slingshot extends Tower{
 		return 1;
 	}
 	
-	@Override
-    public String toString() {
-		 return String.format("S");
-	}
 
 	public String getName() {
 		return name;
@@ -37,5 +33,10 @@ public class Slingshot extends Tower{
 			return true;
 		}
 		return  false;
+	}
+
+	@Override
+    public String toString() {
+		return String.format("S");
 	}
 }

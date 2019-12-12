@@ -1,8 +1,12 @@
 package towerDefence;
 
-public class Elephant extends Enemy{
-
+public class Buffalo extends Enemy{
 	private int health;
+	
+	public Buffalo() {
+		super(0);
+		health = 6;
+	}
 	
 	public int getHealth() {
 		return health;
@@ -12,11 +16,11 @@ public class Elephant extends Enemy{
 		this.health = health;
 	}
 
-	public Elephant() {
-		super(0);
-		health = 10;
+	@Override
+	public void advance() {
+		this.setPositionB();
 	}
-
+	
 	@Override
 	public void hit(Tower t) {
 		if (t.getName() == "C") {
@@ -28,14 +32,8 @@ public class Elephant extends Enemy{
 		}
 	}
 	
-	
-	@Override
-	public void advance() {
-		this.setPositionEl();
-	}
-	
 	@Override
     public String toString() { 
-		return String.format("E");
-	}
+		 return String.format("B"); 
+	} 
 }

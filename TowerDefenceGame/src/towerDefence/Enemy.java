@@ -14,7 +14,7 @@ public class Enemy{
 		return this.position;
 	}
 	
-	void hitTower(Tower t) {
+	void hit(Tower t) {
 	}
 	
 	public void setPositionRat() {
@@ -25,9 +25,12 @@ public class Enemy{
 		this.position += 1;
 	}
 	
-	void advance() {
-		this.position+=10;
+	
+	public void setPositionB() {
+		this.position += 1;
 	}
+	
+	public void advance() {}
 	
 	@Override
     public String toString() { 

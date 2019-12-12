@@ -24,7 +24,9 @@ public class Game {
 	private float probabilityOfNewEnemyPerTimeStep;
 	private int corridorLength = 0;
     private int budget;
-	
+    private int currentTimeStep;
+    private Enemy[] corridor;   //Array that stores the information of what kind of Enemy, if any, is in every position
+
 	
 	
 	
@@ -38,28 +40,32 @@ public class Game {
 		randomGenerator = new Random();
 		probabilityOfNewEnemyPerTimeStep = (float) PROB_88;
 		budget = BUDGET;
+		currentTimeStep = 0;
+		corridor = new Enemy[corridorLengthIn + 1];
+		emptyCorridor();
 		insertTowers();
 	}
 
 
 
-	public void advance() {
-		
+	private void emptyCorridor() {
+		int len = corridor.length;
+		for (int i = 0; i < len; i++) {
+			corridor[i] = null;
+		}
 	}
+
+
+
+
 	
 	
-	public void drawCorridor() {
+	public void advance() {
 		int twrs[] = new int[towers.size()];
 		for (int i = 0; i < towers.size(); i++) {
 			twrs[i] = towers.get(i).getPosition();
 		}
-		for (int i = 0; i < towers.size(); i++) {
-			for (int j = i + 1; j < towers.size(); j++) {
-				if (towers.get(i).getPosition() > towers.get(j).getPosition()) {
-					Collections.swap(towers, i, j);
-				}
-			}
-		}
+
 		
 		for(;;) {
 			insertEnemyWithProbability(probabilityOfNewEnemyPerTimeStep);
@@ -69,7 +75,6 @@ public class Game {
 			int flag = 0;
 			for (int i = 0; i <= len; i++) {
 				flag = 0;
-				//int towers.get(j).getPosition());
 				for (int j = 0; j < twrs.length; j++) {
 					if (twrs[j] == i) {
 						System.out.print(towers.get(j));
@@ -81,6 +86,10 @@ public class Game {
 				}
 			}
 			System.out.println("\n");
+			
+			
+			
+			int flagDefeat = 0;
 			for (int i = 0; i < enemies.size(); i++) {
 				int pos = enemies.get(i).getPosition();
 				//System.out.println(pos);
@@ -91,7 +100,9 @@ public class Game {
 				}
 				System.out.print(enemies.get(i) + " ");
 				enemies.get(i).advance();
+			
 				if (enemies.get(i).getPosition() == len) {
+					/*
 					System.out.println();
 					for (int k = 0; k < len; k++) {
 						System.out.print("_");
@@ -99,11 +110,17 @@ public class Game {
 					System.out.print("|");
 					System.out.println("\nGame over");
 					return;
+					*/
+					flagDefeat = 1;
 				}
 				System.out.println();
 				//System.out.println(enemies.get(i).getPosition());
 			}
 			System.out.println();
+			
+			
+			
+			
 			for (int i = 0; i < len; i++) {
 				System.out.print("_");
 			}
@@ -112,7 +129,11 @@ public class Game {
 			if (enemies.isEmpty()) {
 				System.out.println("All enemies were defeated");
 				return;
+			} else if (flagDefeat == 1) {
+				System.out.println("\nGame over");
+				System.exit(0);
 			}
+			flagDefeat = 0;
 			try {
 				TimeUnit.SECONDS.sleep(1);
 			} catch (InterruptedException e) {
@@ -121,16 +142,16 @@ public class Game {
 			}
 			
 			for (int i = 0; i < twrs.length; i++) {
-				if (!enemies.isEmpty() && towers.get(i).willFire(Tower.getTimeStep()) && towers.get(i).getPosition() > enemies.get(0).getPosition()) {
+				if (!enemies.isEmpty() && towers.get(i).willFire(this.currentTimeStep) && towers.get(i).getPosition() > enemies.get(0).getPosition()) {
 					for (int j = 0; j < 1; j++) {
-						enemies.get(j).hitTower(towers.get(i));
+						enemies.get(j).hit(towers.get(i));
 						if (enemies.get(j).getHealth() <= 0) {
 							enemies.remove(j);
 						}
 					}
 				}
 			}
-			Tower.setTimeStep();
+			this.currentTimeStep++;
 		}
 	}
 	
@@ -143,7 +164,7 @@ public class Game {
 			insertRat();
 		} else if (getRandom < PROB_66 * probability * ONE_HUNDRED) {
 			insertElephant();
-		} else if (getRandom < PROB_66 * probability * ONE_HUNDRED) {
+		} else if (getRandom < probability * ONE_HUNDRED) {
 			insertBuffalo();
 		}
 	}

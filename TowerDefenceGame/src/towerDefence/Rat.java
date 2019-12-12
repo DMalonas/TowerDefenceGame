@@ -6,7 +6,6 @@ public class Rat extends Enemy{
 	public Rat() {
 		super(0);
 		health = 1;
-		System.out.println("Rat created");
 	}
 	
 	public int getHealth() {
@@ -23,7 +22,7 @@ public class Rat extends Enemy{
 	}
 	
 	@Override
-	public void hitTower(Tower t) {
+	public void hit(Tower t) {
 		if (t.getName() == "C") {
 			health -= 5;
 		} else if (t.getName() == "S") {

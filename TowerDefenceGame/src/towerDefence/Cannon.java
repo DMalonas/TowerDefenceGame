@@ -1,17 +1,17 @@
 package towerDefence;
 
-public class Catapult extends Tower{
+public class Cannon extends Tower{
 
 	private String name;
 	
-	public Catapult(int positionIn) {
-		super(positionIn, "C");
-		System.out.print("Catapult created");
+	public Cannon(int positionIn) {
+		super(positionIn, "N");
+		System.out.print("Cannon created");
 
 		// TODO Auto-generated constructor stub
 	}
 
-	
+
 	@Override
 	public int getDamage() {
 		return 5;
@@ -28,7 +28,7 @@ public class Catapult extends Tower{
 	@Override
 	boolean willFire(int timeStep) {
 
-		if (timeStep % 3 == 0 && timeStep != 0) {
+		if (timeStep % 2 == 1 && timeStep != 0) {
 			
 			return true;
 		}
@@ -37,6 +37,6 @@ public class Catapult extends Tower{
 
 	@Override
     public String toString() { 
-		 return String.format("C"); 
+		 return String.format("N"); 
 	}
 }

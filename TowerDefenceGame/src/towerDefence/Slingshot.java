@@ -8,7 +8,6 @@ public class Slingshot extends Tower{
 	public Slingshot(int positionIn) {
 		super(positionIn, "S");
 		cost = SLING_COST;
-		System.out.print("slingshot created");
 		// TODO Auto-generated constructor stub
 	}
 

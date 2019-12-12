@@ -22,10 +22,11 @@ public class Game {
 	private ArrayList<Tower> towers = new ArrayList<Tower>();
 	
 	private float probabilityOfNewEnemyPerTimeStep;
-	private int corridorLength = 0;
+	private int corridorLength;
     private int budget;
     private int currentTimeStep;
     private Enemy[] corridor;   //Array that stores the information of what kind of Enemy, if any, is in every position
+	private boolean gameEnded;
 
 	
 	
@@ -41,7 +42,8 @@ public class Game {
 		probabilityOfNewEnemyPerTimeStep = (float) PROB_88;
 		budget = BUDGET;
 		currentTimeStep = 0;
-		corridor = new Enemy[corridorLengthIn + 1];
+		corridor = new Enemy[corridorLength + 1];
+		gameEnded = false;
 		emptyCorridor();
 		insertTowers();
 	}
@@ -65,94 +67,102 @@ public class Game {
 		for (int i = 0; i < towers.size(); i++) {
 			twrs[i] = towers.get(i).getPosition();
 		}
+		insertEnemyWithProbability(probabilityOfNewEnemyPerTimeStep);
 
-		
-		for(;;) {
-			insertEnemyWithProbability(probabilityOfNewEnemyPerTimeStep);
+		Iterator<Enemy> enemyIterator = enemies.iterator();
+		Enemy currentEnemy;
+		while(enemyIterator.hasNext()) {
+			currentEnemy = enemyIterator.next();
+			if (currentEnemy.getHealth() <= 0) {
+				enemyIterator.remove();
+			} else {
+				currentEnemy.advance();
+		        if (currentEnemy.getPosition() >= corridorLength) {
+		            System.out.println("Game ended");
+		            System.exit(0);
+		        }
+				corridor[currentEnemy.getPosition()] = currentEnemy;
+			}
+		}
 
-			int len = this.corridorLength;
-			System.out.println("\n");
-			int flag = 0;
-			for (int i = 0; i <= len; i++) {
-				flag = 0;
-				for (int j = 0; j < twrs.length; j++) {
-					if (twrs[j] == i) {
-						System.out.print(towers.get(j));
-						flag = 1;
-					}
-				}
-				if (i < len && flag == 0) {
-					System.out.print("_");				
+		int len = this.corridorLength;
+		System.out.println("\n");
+		int flag = 0;
+		for (int i = 0; i <= len; i++) {
+			flag = 0;
+			for (int j = 0; j < twrs.length; j++) {
+				if (twrs[j] == i) {
+					System.out.print(towers.get(j));
+					flag = 1;
 				}
 			}
-			System.out.println("\n");
+			if (i < len && flag == 0) {
+				System.out.print("_");				
+			}
+		}
+		System.out.println("\n");
+		
+		
+		
+		int flagDefeat = 0;
+		/*
+		//Manipulate enemies old solution
+		for (int i = 0; i < enemies.size(); i++) {
+			int pos = enemies.get(i).getPosition();
+			//System.out.println(pos);
 			
-			
-			
-			int flagDefeat = 0;
-			for (int i = 0; i < enemies.size(); i++) {
-				int pos = enemies.get(i).getPosition();
-				//System.out.println(pos);
+			for (int j = 0; j < pos; j++) {
 				
-				for (int j = 0; j < pos; j++) {
-					
-					System.out.print(" ");
-				}
-				System.out.print(enemies.get(i) + " ");
-				enemies.get(i).advance();
-			
-				if (enemies.get(i).getPosition() == len) {
-					/*
-					System.out.println();
-					for (int k = 0; k < len; k++) {
-						System.out.print("_");
-					}
-					System.out.print("|");
-					System.out.println("\nGame over");
-					return;
-					*/
-					flagDefeat = 1;
-				}
-				System.out.println();
-				//System.out.println(enemies.get(i).getPosition());
+				System.out.print(" ");
+			}
+			System.out.print(enemies.get(i) + " ");
+			enemies.get(i).advance();
+		
+			if (enemies.get(i).getPosition() == len) {
+				flagDefeat = 1;
 			}
 			System.out.println();
-			
-			
-			
-			
-			for (int i = 0; i < len; i++) {
-				System.out.print("_");
-			}
-			System.out.print("|");
-			System.out.println("\n\n\n\n");
-			if (enemies.isEmpty()) {
-				System.out.println("All enemies were defeated");
-				return;
-			} else if (flagDefeat == 1) {
-				System.out.println("\nGame over");
-				System.exit(0);
-			}
-			flagDefeat = 0;
-			try {
-				TimeUnit.SECONDS.sleep(1);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			for (int i = 0; i < twrs.length; i++) {
-				if (!enemies.isEmpty() && towers.get(i).willFire(this.currentTimeStep) && towers.get(i).getPosition() > enemies.get(0).getPosition()) {
-					for (int j = 0; j < 1; j++) {
-						enemies.get(j).hit(towers.get(i));
-						if (enemies.get(j).getHealth() <= 0) {
-							enemies.remove(j);
-						}
+		}
+		System.out.println();
+		 */
+        System.out.println("\n" + this + "\n");
+
+
+
+		
+		for (int i = 0; i < len; i++) {
+			System.out.print("_");
+		}
+		System.out.print("|");
+		System.out.println("\n\n\n\n");
+		if (enemies.isEmpty()) {
+			System.out.println("All enemies were defeated");
+			return;
+		} else if (flagDefeat == 1) {
+			System.out.println("\nGame over");
+			System.exit(0);
+		}
+		flagDefeat = 0;
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		for (int i = 0; i < twrs.length; i++) {
+			if (!enemies.isEmpty() && towers.get(i).willFire(this.currentTimeStep) && towers.get(i).getPosition() > enemies.get(0).getPosition()) {
+				for (int j = 0; j < 1; j++) {
+					enemies.get(j).hit(towers.get(i));
+					if (enemies.get(j).getHealth() <= 0) {
+						enemies.remove(j);
 					}
 				}
 			}
-			this.currentTimeStep++;
 		}
+		emptyCorridor();
+		System.out.println("Time step: " + currentTimeStep);
+		this.currentTimeStep++;
 	}
 	
 	
@@ -163,9 +173,11 @@ public class Game {
 		if (getRandom < PROB_33 * probability * ONE_HUNDRED) {
 			insertRat();
 		} else if (getRandom < PROB_66 * probability * ONE_HUNDRED) {
-			insertElephant();
-		} else if (getRandom < probability * ONE_HUNDRED) {
 			insertBuffalo();
+		} else if (getRandom < probability * ONE_HUNDRED) {
+			insertElephant();
+		} else {
+			insertElephant();
 		}
 	}
 	
@@ -280,9 +292,25 @@ public class Game {
 		this.towers.add(towerIn);
 	}
 	
+	public boolean gameEnded() {
+		return this.gameEnded;
+	}
+	
 	@Override
     public String toString() { 
-		 return String.format("Game"); 
+		String stateEnemies = " ";
+		for (int i = 0; i < corridorLength; i++) {
+			if (corridor[i] == null)  {
+				stateEnemies += ".";
+			} else if (corridor[i] instanceof Rat) {
+				stateEnemies += "r";
+			} else if (corridor[i] instanceof Buffalo) {
+				stateEnemies += "B";
+			} else {
+				stateEnemies += "E";
+			}
+		}
+		return String.format(stateEnemies);
 	}
 
 

@@ -54,7 +54,7 @@ public class RunGame {
 		Game game = new Game(40);
 		do {
 			game.advance();
-		} while(true);
+		} while(!game.gameEnded());
 	}
 
 }

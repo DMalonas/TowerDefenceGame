@@ -6,8 +6,6 @@ public class Catapult extends Tower{
 	
 	public Catapult(int positionIn) {
 		super(positionIn, "C");
-		System.out.print("Catapult created");
-
 		// TODO Auto-generated constructor stub
 	}
 

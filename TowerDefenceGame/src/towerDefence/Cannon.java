@@ -6,7 +6,6 @@ public class Cannon extends Tower{
 	
 	public Cannon(int positionIn) {
 		super(positionIn, "N");
-		System.out.print("Cannon created");
 
 		// TODO Auto-generated constructor stub
 	}

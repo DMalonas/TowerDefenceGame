@@ -11,7 +11,7 @@ public class Slingshot extends Tower{
 		// TODO Auto-generated constructor stub
 	}
 
-	
+
 	@Override
 	public int getDamage() {
 		return 1;

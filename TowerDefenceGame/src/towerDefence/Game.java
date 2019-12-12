@@ -63,12 +63,10 @@ public class Game {
 	
 	
 	public void advance() {
-		int twrs[] = new int[towers.size()];
-		for (int i = 0; i < towers.size(); i++) {
-			twrs[i] = towers.get(i).getPosition();
-		}
-		insertEnemyWithProbability(probabilityOfNewEnemyPerTimeStep);
-
+		this.currentTimeStep++;
+	
+		
+		//Enemies advance
 		Iterator<Enemy> enemyIterator = enemies.iterator();
 		Enemy currentEnemy;
 		while(enemyIterator.hasNext()) {
@@ -84,85 +82,49 @@ public class Game {
 				corridor[currentEnemy.getPosition()] = currentEnemy;
 			}
 		}
-
-		int len = this.corridorLength;
-		System.out.println("\n");
-		int flag = 0;
-		for (int i = 0; i <= len; i++) {
-			flag = 0;
-			for (int j = 0; j < twrs.length; j++) {
-				if (twrs[j] == i) {
-					System.out.print(towers.get(j));
-					flag = 1;
+		
+		//Towers shoot
+		Iterator<Tower> towerIterator = towers.iterator();
+		Tower currentTower;
+		int towerPosition = 0;
+		int indexPosition = 0;
+		boolean currentTowerFired;
+		while(towerIterator.hasNext()) {
+			currentTower = towerIterator.next();
+			//Check if it is supposed to fire
+			//Prepare for finding which enemy can/will shoot
+			if(currentTower.willFire(this.currentTimeStep)) {
+				towerPosition = currentTower.getPosition();
+				indexPosition = towerPosition;
+				currentTowerFired = false;
+				//While it has not found nothing available to hit, it keeps on looking until nothing is found at the available positions
+				while((indexPosition > 0) && (!currentTowerFired)) {
+					//If enemy is found hit it
+					if(corridor[indexPosition] != null) {
+						corridor[indexPosition].hit(currentTower);
+						currentTowerFired = true;
+					}
+					indexPosition--;
 				}
 			}
-			if (i < len && flag == 0) {
-				System.out.print("_");				
-			}
 		}
-		System.out.println("\n");
-		
-		
-		
-		int flagDefeat = 0;
-		/*
-		//Manipulate enemies old solution
-		for (int i = 0; i < enemies.size(); i++) {
-			int pos = enemies.get(i).getPosition();
-			//System.out.println(pos);
-			
-			for (int j = 0; j < pos; j++) {
-				
-				System.out.print(" ");
-			}
-			System.out.print(enemies.get(i) + " ");
-			enemies.get(i).advance();
-		
-			if (enemies.get(i).getPosition() == len) {
-				flagDefeat = 1;
-			}
-			System.out.println();
-		}
-		System.out.println();
-		 */
+
+
         System.out.println("\n" + this + "\n");
 
-
-
+        if(corridor[corridorLength] != null) {
+        	gameEnded = true;
+        }
+        // Clear corridor array for the next step to remake it from scratch with the new positions
+        emptyCorridor();
+		insertEnemyWithProbability(probabilityOfNewEnemyPerTimeStep);
 		
-		for (int i = 0; i < len; i++) {
-			System.out.print("_");
-		}
-		System.out.print("|");
-		System.out.println("\n\n\n\n");
-		if (enemies.isEmpty()) {
-			System.out.println("All enemies were defeated");
-			return;
-		} else if (flagDefeat == 1) {
-			System.out.println("\nGame over");
-			System.exit(0);
-		}
-		flagDefeat = 0;
 		try {
 			TimeUnit.SECONDS.sleep(1);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		for (int i = 0; i < twrs.length; i++) {
-			if (!enemies.isEmpty() && towers.get(i).willFire(this.currentTimeStep) && towers.get(i).getPosition() > enemies.get(0).getPosition()) {
-				for (int j = 0; j < 1; j++) {
-					enemies.get(j).hit(towers.get(i));
-					if (enemies.get(j).getHealth() <= 0) {
-						enemies.remove(j);
-					}
-				}
-			}
-		}
-		emptyCorridor();
-		System.out.println("Time step: " + currentTimeStep);
-		this.currentTimeStep++;
 	}
 	
 	
@@ -297,7 +259,31 @@ public class Game {
 	}
 	
 	@Override
-    public String toString() { 
+    public String toString() {
+
+		// Prepare string for Towers
+        //we need two extra spaces: one for the zeroth element that we do not use, and one for the newline character as the last character of the char[]
+        char[] stateTowers = new char[this.corridorLength + 2];
+        for (int i = 0; i < (this.corridorLength + 1); i++) {
+            stateTowers[i] = ' ';
+        }
+        Iterator<Tower> towerIterator = towers.iterator();
+        Tower currentTower;
+        while (towerIterator.hasNext()) {
+            currentTower = towerIterator.next();
+            if (currentTower instanceof Slingshot) {
+                stateTowers[currentTower.getPosition()] = 'S';  // S: Slingshot
+            }
+            else if (currentTower instanceof Catapult) {
+                stateTowers[currentTower.getPosition()] = 'C';  // C: Catapult
+            }
+            else {
+                stateTowers[currentTower.getPosition()] = 'N';  // N: Cannon
+            }
+        }
+        stateTowers[corridorLength + 1] = '\n';
+		
+		
 		String stateEnemies = " ";
 		for (int i = 0; i < corridorLength; i++) {
 			if (corridor[i] == null)  {
@@ -310,7 +296,8 @@ public class Game {
 				stateEnemies += "E";
 			}
 		}
-		return String.format(stateEnemies);
+		//return String.format(stateEnemies);
+		return "Current timestep: " + currentTimeStep + "\n" + String.valueOf(stateTowers) + stateEnemies + "\n\n";
 	}
 
 

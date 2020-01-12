@@ -65,23 +65,33 @@ public class Game {
 	public void advance() {
 		this.currentTimeStep++;
 	
-		
-		//Enemies advance
-		Iterator<Enemy> enemyIterator = enemies.iterator();
-		Enemy currentEnemy;
-		while(enemyIterator.hasNext()) {
-			currentEnemy = enemyIterator.next();
-			if (currentEnemy.getHealth() <= 0) {
-				enemyIterator.remove();
-			} else {
-				currentEnemy.advance();
-		        if (currentEnemy.getPosition() >= corridorLength) {
-		            System.out.println("Game ended");
-		            System.exit(0);
-		        }
-				corridor[currentEnemy.getPosition()] = currentEnemy;
-			}
-		}
+		//Enemies advance with lambda
+		enemies.removeIf(enemy -> enemy.getHealth() <= 0);
+		enemies.forEach(enemy -> {
+			enemy.advance();
+	        if (enemy.getPosition() >= corridorLength) {
+	            System.out.println("Game ended");
+	            System.exit(0);
+	        }
+			corridor[enemy.getPosition()] = enemy;
+			
+		});
+		//Enemies advance with Iterator
+//		Iterator<Enemy> enemyIterator = enemies.iterator();
+//		Enemy currentEnemy;
+//		while(enemyIterator.hasNext()) {
+//			currentEnemy = enemyIterator.next();
+//			if (currentEnemy.getHealth() <= 0) {
+//				enemyIterator.remove();
+//			} else {
+//				currentEnemy.advance();
+//		        if (currentEnemy.getPosition() >= corridorLength) {
+//		            System.out.println("Game ended");
+//		            System.exit(0);
+//		        }
+//				corridor[currentEnemy.getPosition()] = currentEnemy;
+//			}
+//		}
 		
 		//Towers shoot
 		Iterator<Tower> towerIterator = towers.iterator();
